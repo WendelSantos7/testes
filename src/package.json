@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "scripts": {
+        "dev": "nodemon --exec ts-node-dev src/server.ts",
+        "build": "tsc"
+      },
+    "dependencies": {
+        "@types/express": "^4.17.21",
+        "@types/sqlite3": "^3.1.11",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "mysql2": "^3.9.7",
+        "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.12",
+        "@types/sequelize": "^4.28.20",
+        "nodemon": "^3.1.0",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.4.5"
+    },
+    "name": "teste",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+}
