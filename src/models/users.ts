@@ -1,36 +1,23 @@
-import { pool } from "../database/ormconfig"
+import mysql, { Pool, QueryError, RowDataPacket } from 'mysql2';
+import { pool } from "../database/ormconfig";
 
 export class Users {
-    constructor(name, password, email)//variaveis do banco
-    {
-    this.name = name;
-    this.password = password;
-    this.email = email;
-    }
-   
+    constructor(public name: string, public password: string, public email: string) {}
 }
 
-//metodo de criar usuario
-export const create = (users) => {
-    const query = `Insert into Users (name, password, email) values ("${users.name}", "${users.password}", "${users.email}")`; //aqui esta o comando para criar um usuario no banco
+// Método de criar usuário
+export const create = (users: Users): Promise<void> => {
+    const query = `INSERT INTO Users (name, password, email) VALUES ("${users.name}", "${users.password}", "${users.email}")`; // Comando para criar um usuário no banco
 
-    return new Promise((resolve, reject) => {
-        pool.query(query, values, (err, result) => {
-            if(err)
-                {
-                    reject(console.error('Erro ao executar a consulta', err))
-                }
-                else
-            {
-                console.log('Usuario criado');
-                resolve()
+    return new Promise<void>((resolve, reject) => {
+        pool.query(query, (err: QueryError | null, result: RowDataPacket[] | undefined) => {
+            if (err) {
+                console.error('Erro ao executar a consulta', err);
+                reject(err);
+            } else {
+                console.log('Usuário criado');
+                resolve();
             }
-        })
-    }
-)
-
-}
-
-
-
-
+        });
+    });
+};

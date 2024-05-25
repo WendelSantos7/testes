@@ -1,16 +1,17 @@
-import  mysql  from 'mysql2'
+import mysql from 'mysql2';
 
-
-const dbConfig = /* const é uma variável que não pode ser modificada depois da criação */
-{
-user: 'root', //mysql root
-password: '',
-host: 'localhost', //ip da máquina]
-port: '3306',
-database: 'fatec',
+const dbConfig: mysql.PoolOptions = {
+    user: 'root',
+    password: '',
+    host: 'localhost',
+    port: 3306, // Porta como número, não como string
+    database: 'fatec'
 };
 
-export const pool = /*Instância do Pool enviando as configurações do banco*/mysql.createConnection(dbconfig);
+
+// Crie uma conexão com o banco de dados
+export const pool = mysql.createPool(dbConfig).promise();
+
 
 /*
 const db1DataSource = new DataSource({

@@ -1,25 +1,24 @@
-import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import item_Equipment from "./item_equipment.entity";
+import mysql, { Pool, QueryError, RowDataPacket } from 'mysql2';
+import { pool } from "../database/ormconfig";
 
-
-@Entity()
-export default class Equipment extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id_equipment!: number;
-
-    @Column()
-    description!: string;
-
-    @Column()
-    model!: string;
-
-    @Column()
-    category!: string;
-
-    @Column()
-    item_equipment_id!: number;
-
-    @ManyToOne(() => item_Equipment, item_equipment => item_equipment.equipments)
-    item_equipments!: item_Equipment[];
-
+export class Checklist {
+    constructor(public dateCheck: string, public status: string, public observ: string, public evidence: string) {}
 }
+
+// Método de criar usuário
+export const create = (checklist: Checklist): Promise<void> => {
+    const query = `INSERT INTO Users (dateCheck, status, observ, evidence) VALUES ("${checklist.dateCheck}", 
+    "${checklist.status}", "${checklist.observ}","${checklist.evidence}")`; // Comando para criar um usuário no banco
+
+    return new Promise<void>((resolve, reject) => {
+        pool.query(query, (err: QueryError | null, result: RowDataPacket[] | undefined) => {
+            if (err) {
+                console.error('Erro ao executar a consulta', err);
+                reject(err);
+            } else {
+                console.log('Checklist Realizado');
+                resolve();
+            }
+        });
+    });
+};
